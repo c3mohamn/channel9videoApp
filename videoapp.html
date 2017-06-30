@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="videoApp" ng-cloak>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Video App</title>
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+  <link href="style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+  <div class="container" ng-controller="videoCtrl">
+
+    <!-- Testing the HTML5 video tag -->
+    <video width="400" controls>
+      <source src="" type="video/mp4">
+    </video>
+
+    <div class="results">
+
+      <h1>{{rssFeed.channel.title}}</h1>
+
+      <ul class="list-group" ng-repeat="item in rssFeed.channel.item">
+        <li class="list-group-item">
+          <h3>{{item.title}}</h3>
+          <code>{{item.description}}</code>
+
+          <ul class="list-inline">
+            <li>
+            </li>
+          </ul>
+
+        </li>
+      </ul>
+    </div>
+
+    {{rssFeed}}
+
+
+
+  </div>
+
+  <!-- JS Files (need Jquery for Bootstrap) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+  integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+  crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <script src="controller.js"></script>
+</body>
+</html>
