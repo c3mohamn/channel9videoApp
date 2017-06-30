@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Video App</title>
+  <title>Channel9 RSS Feed</title>
 
   <!-- CSS Files -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -16,10 +16,10 @@
 
   <div class="container" ng-controller="videoCtrl">
 
-    <!-- Testing the HTML5 video tag -->
-    <video width="400" controls>
-      <source src="" type="video/mp4">
-    </video>
+    <!-- TODO:
+    1. Drop down for description
+    2. Figure out how to bind video url in html5 video tag.
+    3. Prettify. -->
 
     <div class="results">
 
@@ -27,21 +27,26 @@
 
       <ul class="list-group" ng-repeat="item in rssFeed.channel.item">
         <li class="list-group-item">
-          <h3>{{item.title}}</h3>
-          <code>{{item.description}}</code>
 
-          <ul class="list-inline">
-            <li>
-            </li>
-          </ul>
+          <!-- Basic Video Info + Thumbnail -->
+          <a ng-href="{{item.link}}" target="_blank">
+            <img ng-src="{{item.thumbnail[1].url}}" alt="">
+            <h3>{{item.title}}</h3>
+          </a>
+          <h5>By {{item.author}}</h5>
+          <hr>
+
+          <!-- Video description -->
+          <p ng-bind-html="item.description"></p>
+
+          <!-- Video -->
+          <video width="400" controls>
+            <source src="" type="video/mp4">
+          </video>
 
         </li>
       </ul>
     </div>
-
-    {{rssFeed}}
-
-
 
   </div>
 
@@ -51,6 +56,7 @@
   integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
   crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <script src="https://code.angularjs.org/1.2.0-rc.3/angular-sanitize.js"></script>
   <script src="controller.js"></script>
 </body>
 </html>
