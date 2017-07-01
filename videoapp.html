@@ -31,20 +31,21 @@
           </li>
           <li id="search_bar">
             <input type="text" class="form-control" placeholder="Search"
-            ng-model="search_val" maxlength=30 size=20
-            ng-keyup="$event.keyCode == 13 && search_feed(search_val)"
-            title="Search by Tags, Title or Author">
+              ng-model="search_val" maxlength=30 size=20
+              ng-keyup="$event.keyCode == 13 && search_feed(search_val)"
+              title="Search by Tags, Title or Author">
           </li>
           <li>
             <button type="submit" class="btn btn-primary"
-            ng-click="search_feed(search_val)">Search</button>
+              ng-click="search_feed(search_val)">Search</button>
           </li>
         </ul>
       </div> <!-- header -->
 
+
+      <!-- All items from feed. -->
       <ul class="list-group" ng-repeat="item in feed.channel.item">
-        <li class="list-group-item feed_item"
-        ng-click="selected_item = $index">
+        <li class="list-group-item feed_item" ng-click="selected_item = $index">
 
           <!-- Title, Thumbnail, Author -->
           <ul class="list-inline" id="item_title">
@@ -56,15 +57,13 @@
               <h3>{{item.title}}</h3>
               <h5>By {{item.author}}</h5>
             </li>
-          </ul>
-          <hr>
+          </ul><hr>
 
-          <!-- Information available when requested. -->
-          <div class="additional-info"
-          ng-if="selected_item == $index"
-          ng-class="{'selected_item': selected_item == $index}">
+          <!-- Description, Video, Tags (dropdown). -->
+          <div class="additional-info" ng-if="selected_item == $index"
+            ng-class="{'selected_item': selected_item == $index}">
 
-            <!-- Video description -->
+            <!-- Description -->
             <p ng-bind-html="item.description"></p>
 
             <!-- Video -->
@@ -86,9 +85,9 @@
             </ul>
           </div> <!-- additional-info -->
 
-        </li>
+        </li> <!-- feed_item -->
       </ul>
-    </div> <!-- results -->
+    </div> <!-- feed -->
   </div> <!-- container -->
 
   <!-- JS Files (need Jquery for Bootstrap) -->
