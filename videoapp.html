@@ -17,38 +17,79 @@
   <div class="container" ng-controller="videoCtrl">
 
     <!-- TODO:
-    1. Drop down for description
-    2. Figure out how to bind video url in html5 video tag.
-    3. Prettify. -->
+    1. Visuals?
+    2. Toggle? -->
 
-    <div class="results">
+    <div class="feed">
 
-      <h1>{{rssFeed.channel.title}}</h1>
+      <div class="header">
+        <ul class="list-inline">
+          <li id="title">
+            <a href="https://channel9.msdn.com/" target="_blank">
+              <h1 class="page-header">{{feed.channel.title}}</h1>
+            </a>
+          </li>
+          <li id="search_bar">
+            <input type="text" class="form-control" placeholder="Search"
+            ng-model="search_val" maxlength=30 size=20
+            ng-keyup="$event.keyCode == 13 && search_feed(search_val)"
+            title="Search by Tags, Title or Author">
+          </li>
+          <li>
+            <button type="submit" class="btn btn-primary"
+            ng-click="search_feed(search_val)">Search</button>
+          </li>
+        </ul>
+      </div> <!-- header -->
 
-      <ul class="list-group" ng-repeat="item in rssFeed.channel.item">
-        <li class="list-group-item">
+      <ul class="list-group" ng-repeat="item in feed.channel.item">
+        <li class="list-group-item feed_item"
+        ng-click="selected_item = $index">
 
-          <!-- Basic Video Info + Thumbnail -->
-          <a ng-href="{{item.link}}" target="_blank">
-            <img ng-src="{{item.thumbnail[1].url}}" alt="">
-            <h3>{{item.title}}</h3>
-          </a>
-          <h5>By {{item.author}}</h5>
+          <!-- Title, Thumbnail, Author -->
+          <ul class="list-inline" id="item_title">
+            <li>
+              <img style="width:150px;"
+              ng-src="{{item.thumbnail[1].url}}" alt="">
+            </li>
+            <li>
+              <h3>{{item.title}}</h3>
+              <h5>By {{item.author}}</h5>
+            </li>
+          </ul>
           <hr>
 
-          <!-- Video description -->
-          <p ng-bind-html="item.description"></p>
+          <!-- Information available when requested. -->
+          <div class="additional-info"
+          ng-if="selected_item == $index"
+          ng-class="{'selected_item': selected_item == $index}">
 
-          <!-- Video -->
-          <video width="400" controls>
-            <source src="" type="video/mp4">
-          </video>
+            <!-- Video description -->
+            <p ng-bind-html="item.description"></p>
+
+            <!-- Video -->
+            <div class="video-player">
+              <video width="500" ng-src="{{find_mp4(item.group.content)}}" controls>
+              </video>
+            </div>
+
+            <!-- Categories/Tags -->
+            <!-- Multiple -->
+            <ul ng-if="item.category && isArray(item.category)" class="list-inline">
+              <li><h4>Categories:</h4></li>
+              <li ng-repeat="cat in item.category track by $index"><a href="">{{cat}}</a></li>
+            </ul>
+            <!-- Single -->
+            <ul ng-if="item.category && isString(item.category)" class="list-inline">
+              <li><h4>Category:</h4></li>
+              <li><a href="">{{item.category}}</a></li>
+            </ul>
+          </div> <!-- additional-info -->
 
         </li>
       </ul>
-    </div>
-
-  </div>
+    </div> <!-- results -->
+  </div> <!-- container -->
 
   <!-- JS Files (need Jquery for Bootstrap) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

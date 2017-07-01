@@ -1,1 +1,1 @@
-.ng-cloak,[ng-cloak],[ng\:cloak]{display:none}
+.ng-cloak,[ng-cloak],[ng\:cloak]{display:none}.feed .header{height:150px}.feed li.feed_item{background-color:#fff;box-shadow:-2px 2px 5px 2px rgba(0,0,0,.3);transition:.3s ease}.feed li.feed_item #item_title{cursor:pointer}.feed li.feed_item:hover{border-radius:5px;border-width:1px;border-color:grey;transition:.3s ease}.feed .selected_item{animation:2s slide_down ease-in;overflow:auto}@keyframes slide_down{from{opacity:0;max-height:0}to{opacity:1;max-height:1500px}}
