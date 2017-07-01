@@ -1,10 +1,10 @@
-var videoApp = angular.module('videoApp', ['ngSanitize']);
+var videoApp = angular.module('videoApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
 // Values required for fetching RSS feed
-var url = "https://channel9.msdn.com/all/rss";
+var url = "https://channel9.msdn.com/all/rss",
 // Yahoo api transforms xml feed into json
-var jsonFeed = "https://query.yahooapis.com/v1/public/yql?" +
-"q=select%20*%20from%20xml%20where%20url%3D'" + url + "'&format=json";
+    jsonFeed = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'" +
+               url + "'&format=json";
 
 /* Allows the use of dynamic src for videos. */
 videoApp.config(function($sceDelegateProvider) {
@@ -17,21 +17,37 @@ videoApp.config(function($sceDelegateProvider) {
 
 videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
 
-  var feed = []; // stores initial feed
-  $scope.feed = []; // template feed
-  $scope.isArray = angular.isArray; // insert array check into scope
-  $scope.isString = angular.isString; // insert string check into scope
+  $scope.feed = {}; // template feed
+  var feed = {      // altered feed
+    title: String,
+    items: []
+  };
+  var feed_item = { // values from feed items that we want
+    title: String, author: String, thumbnail: String, description: String,
+    video: String, tags: []
+  };
 
   // GET RSS feed form Channel9
   $http.get(jsonFeed).success(function (data) {
-      feed = data.query.results.rss;
-      console.log(feed);
+      var original_feed = data.query.results.rss;
+      feed.title = original_feed.channel.title;
 
       // Loop through feed & modify iff necessary
-      angular.forEach(feed.channel.item, function(item) {
-        // Removes the ending img tag that causes error for us
+      angular.forEach(original_feed.channel.item, function(item) {
+        // Used to remove the ending img tag that causes error for us
         var img_loc = item.description.indexOf('<img');
-        item.description = item.description.slice(0, img_loc);
+
+        // Assign item attributes that we want
+        feed_item.title = item.title;
+        feed_item.author = item.author;
+        feed_item.thumbnail = item.thumbnail[1].url;
+        feed_item.description = item.description.slice(0, img_loc);
+        if (item.group) feed_item.video = find_mp4(item.group.content);
+        // iff tag is string, convert to array
+        if (angular.isString(item.category)) feed_item.tags.push(item.category);
+        else feed_item.tags = item.category;
+
+        feed.items.push(angular.copy(feed_item));
       });
 
       $scope.feed = angular.copy(feed);
@@ -42,7 +58,7 @@ videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
 
     // If no search val, return to default
     if (!search_val) {
-      $scope.feed.channel.item = feed.channel.item;
+      $scope.feed.items = feed.items;
       return false;
     }
 
@@ -50,18 +66,13 @@ videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
     var matching_items = [];
 
     // Loop through items from original feed
-    for (var key in feed.channel.item) {
-      var item = feed.channel.item[key];
+    for (var key in feed.items) {
+      var item = feed.items[key];
       var matches = false;
 
-      // Check if matches with item category || title || author.
-      if (angular.isArray(item.category)) {
-        for (var key in item.category) {
-          if (item.category[key].toLowerCase().indexOf(search_val) > -1)
-            matches = true;
-        }
-      } else {
-        if (item.category.toLowerCase().indexOf(search_val) > -1)
+      // Check if matches with item tags || title || author.
+      for (var key in item.tags) {
+        if (item.tags[key].toLowerCase().indexOf(search_val) > -1)
           matches = true;
       }
       if (item.title.toLowerCase().indexOf(search_val) > -1)
@@ -73,13 +84,13 @@ videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
         matching_items.push(item);
     }
 
-    $scope.feed.channel.item = matching_items;
+    $scope.feed.items = matching_items;
   }
 
   /* Tries to find the first playable mp4 video in rss feed item's list
    * of videos.
    */
-  $scope.find_mp4 = function(videos) {
+  function find_mp4(videos) {
     //console.log(videos);
     for (var vid in videos) {
       //console.log(vid);
@@ -88,4 +99,5 @@ videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
         return videos[vid].url;
     }
   }
+
 }]);

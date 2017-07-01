@@ -9,35 +9,16 @@
     height: 150px;
   }
 
-  li.feed_item {
-    background-color: white;
-    box-shadow: -2px 2px 5px 2px rgba(0,0,0,.3);
-    transition: .3s ease;
-
-    #item_title {
-      cursor: pointer;
-    }
-  }
-  li.feed_item:hover {
-    border-radius: 5px;
-    border-width: 1px;
-    border-color: grey;
-    transition: .3s ease;
+  .panel-default {
+    box-shadow: -2px 2px 5px 2px rgba(0,0,0,.2);
+    transition: .3s;
   }
 
-  // feed items that we click
-  .selected_item {
-    animation: 2s slide_down ease-in;
-    overflow: auto;
+  .panel-default:hover {
+    border: solid 1px;
+    border-radius: 3px;
+    border-color: rgba(0,0,0,.5);
+    transition: .5s;
   }
-}
 
-@keyframes slide_down {
-  from {
-    opacity: 0;
-    max-height: 0;
-  } to {
-    opacity: 1;
-    max-height: 1500px;
-  }
 }

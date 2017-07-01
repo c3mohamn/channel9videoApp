@@ -5,30 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Channel9 RSS Feed</title>
-
   <!-- CSS Files -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+  <div class="feed container" ng-controller="videoCtrl">
 
-  <div class="container" ng-controller="videoCtrl">
-
-    <!-- TODO:
-    1. Visuals?
-    2. Toggle? -->
-
-    <div class="feed">
-
+      <!-- Page Header-->
       <div class="header">
         <ul class="list-inline">
           <li id="title">
             <a href="https://channel9.msdn.com/" target="_blank">
-              <h1 class="page-header">{{feed.channel.title}}</h1>
+              <h1>{{feed.title}}</h1>
             </a>
           </li>
+          <!-- Search -->
           <li id="search_bar">
             <input type="text" class="form-control" placeholder="Search"
               ng-model="search_val" maxlength=30 size=20
@@ -42,61 +34,58 @@
         </ul>
       </div> <!-- header -->
 
+      <uib-accordion close-others="true">
+        <div uib-accordion-group class="panel-default" is-open="status.open"
+          ng-repeat="item in feed.items">
 
-      <!-- All items from feed. -->
-      <ul class="list-group" ng-repeat="item in feed.channel.item">
-        <li class="list-group-item feed_item" ng-click="selected_item = $index">
+          <!-- Item Heading -->
+          <uib-accordion-heading>
+            <ul class="list-inline">
+              <!-- Thumbnail -->
+              <li>
+                <img style="width:150px;"
+                ng-src="{{item.thumbnail}}" alt="">
+              </li>
+              <!-- Title + Author -->
+              <li>
+                <h3>{{item.title}}</h3>
+                <h5>By {{item.author}}</h5>
+              </li>
+              <!-- Open/Close Arrow -->
+              <li class="pull-right">
+                <i class="glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+              </li>
+            </ul>
+          </uib-accordion-heading>
 
-          <!-- Title, Thumbnail, Author -->
-          <ul class="list-inline" id="item_title">
-            <li>
-              <img style="width:150px;"
-              ng-src="{{item.thumbnail[1].url}}" alt="">
-            </li>
-            <li>
-              <h3>{{item.title}}</h3>
-              <h5>By {{item.author}}</h5>
-            </li>
-          </ul><hr>
-
-          <!-- Description, Video, Tags (dropdown). -->
-          <div class="additional-info" ng-if="selected_item == $index"
-            ng-class="{'selected_item': selected_item == $index}">
-
+          <!-- Item Body (dropdown) -->
+          <div class="feed-body" ng-if="status.open">
             <!-- Description -->
             <p ng-bind-html="item.description"></p>
 
             <!-- Video -->
-            <div class="video-player">
-              <video width="500" ng-src="{{find_mp4(item.group.content)}}" controls>
+            <div>
+              <video width="500" ng-src="{{item.video}}" controls>
               </video>
             </div>
 
             <!-- Categories/Tags -->
-            <!-- Multiple -->
-            <ul ng-if="item.category && isArray(item.category)" class="list-inline">
-              <li><h4>Categories:</h4></li>
-              <li ng-repeat="cat in item.category track by $index"><a href="">{{cat}}</a></li>
+            <ul class="list-inline">
+              <li><h4>Tags:</h4></li>
+              <li ng-repeat="tag in item.tags track by $index"><a href="">{{tag}}</a></li>
             </ul>
-            <!-- Single -->
-            <ul ng-if="item.category && isString(item.category)" class="list-inline">
-              <li><h4>Category:</h4></li>
-              <li><a href="">{{item.category}}</a></li>
-            </ul>
-          </div> <!-- additional-info -->
 
-        </li> <!-- feed_item -->
-      </ul>
-    </div> <!-- feed -->
-  </div> <!-- container -->
+          </div> <!-- item_body -->
+        </div> <!-- accordian-group -->
+      </uib-accordion>
 
-  <!-- JS Files (need Jquery for Bootstrap) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-  integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-  crossorigin="anonymous"></script>
+  </div> <!-- feed container -->
+
+  <!-- JS Files -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-  <script src="https://code.angularjs.org/1.2.0-rc.3/angular-sanitize.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.js"></script>
+  <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
   <script src="controller.js"></script>
 </body>
 </html>
