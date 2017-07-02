@@ -15,6 +15,19 @@ videoApp.config(function($sceDelegateProvider) {
    'http://video.ch9.ms/ch9/**']);
 });
 
+/* Returns Scroll Position of Page */
+videoApp.directive("scrollPos", function($window) {
+  return function(scope, element, attrs) {
+    angular.element($window).bind("scroll", function() {
+      if (!scope.scrollPosition) {
+        scope.scrollPosition = 0
+      }
+      scope.scrollPosition = this.pageYOffset;
+      scope.$apply();
+    });
+  };
+});
+
 videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
 
   $scope.feed = {}; // template feed
@@ -23,14 +36,20 @@ videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
     items: []
   };
   var feed_item = { // values from feed items that we want
-    title: String, author: String, thumbnail: String, description: String,
-    video: String, tags: []
+    title: String,
+    author: String,
+    date: String,
+    thumbnail: String,
+    description: String,
+    video: String,
+    tags: []
   };
 
   // GET RSS feed form Channel9
   $http.get(jsonFeed).success(function (data) {
       var original_feed = data.query.results.rss;
       feed.title = original_feed.channel.title;
+      console.log(original_feed);
 
       // Loop through feed & modify iff necessary
       angular.forEach(original_feed.channel.item, function(item) {
@@ -40,6 +59,7 @@ videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
         // Assign item attributes that we want
         feed_item.title = item.title;
         feed_item.author = item.author;
+        feed_item.date = item.pubDate;
         feed_item.thumbnail = item.thumbnail[1].url;
         feed_item.description = item.description.slice(0, img_loc);
         if (item.group) feed_item.video = find_mp4(item.group.content);
