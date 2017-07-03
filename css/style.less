@@ -1,0 +1,140 @@
+// Hide curly brackets for binded data
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none;
+}
+
+/* Fonts */
+@font-face {
+  font-family: "H-Font";
+  src: url("../lib/fonts/BebasNeue.otf");
+}
+
+/* Globals */
+body {
+  background-image: url("../lib/images/bg/vintage-leaves.png");
+  h1,h2,h3,h4,h5,h6 {
+    font-family: "H-Font";
+  }
+  a {
+    text-decoration: none;
+    transition: .2s;
+  }
+  a:hover {
+    text-decoration: none;
+    transition: .2s;
+  }
+}
+
+// Feed Container / BG CSS
+.container {
+  min-width: 400px;
+  max-width: 800px;
+  background-color: rgba(0, 255, 251, .1);
+  margin-top: 150px;
+  padding:10px;
+  border-radius: 10px;
+}
+
+// Advanced Search / Filters
+.search-filters {
+  margin-bottom: -100px;
+  text-align: center;
+  li {
+    padding: 20px;
+  }
+  input {
+    cursor: pointer;
+  }
+}
+
+.feed {
+  // Navigation Bar CSS
+  nav {
+    height: 75px;
+    #search {
+      padding: 5px;
+      margin-top: 15px;
+      #search_bar {
+        float: right;
+        width: 200px;
+      }
+      #toggle_filters {
+        float: right;
+      }
+    }
+    #page-title {
+      a       {color: #01A9DB;}
+      a:hover {color: #0489B1;}
+    }
+  }
+
+  // Feed Description
+  .feed-description {
+    margin-bottom: 100px;
+    img {
+      width: 150px;
+      float:left;
+      padding: 10px;
+    }
+  }
+
+  // Feed Items CSS
+  .panel {
+    background-color: rgba(0,0,0,.2);
+    margin-bottom: 10px;
+    box-shadow: -2px 2px 5px 2px rgba(0,0,0,.1);
+    transition: .5s;
+  }
+  .panel:hover {
+    background-color: rgba(0,0,0,.2);
+    border: solid 1px;
+    border-radius: 3px;
+    border-color: rgba(0,0,0,.5);
+    transition: .5s;
+  }
+
+  #thumbnail {
+    box-shadow: -1px 1px 2px 1px rgba(0,0,0,.5);
+    width: 125px;
+    margin-top: 8px;
+  }
+
+  #heading_info {
+    margin-top: -14px;
+    #title {color: #01A9DB;}
+  }
+
+  // Video Thumbnail CSS
+  #video_thumbnail {
+    position: relative;
+    display: inline-block;
+    img {
+      cursor: pointer;
+    }
+    // putting play icon over thumbnail
+    #play_icon {
+      width: 30%;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: block;
+      margin: auto;
+    }
+    #duration {
+      position: absolute;
+      margin-left: 10px;
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-top: 2px;
+      bottom: 0; left: 0;
+      background-color: black;
+      color: white;
+    }
+  }
+
+  #item_video {
+    margin-top: 15px;
+    video, iframe {
+      width: 100%;
+    }
+  }
+}

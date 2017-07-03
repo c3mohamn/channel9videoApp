@@ -7,101 +7,149 @@
   <title>Channel9 RSS Feed</title>
   <!-- CSS Files -->
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet" type="text/css"/>
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="css/animations.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
-  <!--
-  TODO:
-  1. Add Channel 9 icon/image
-  2. Description of page
-  3. Advanced Search with filters.
-  4. Video Thumbnail with Duration first, then toggle to actual video.
- -->
-  <div class="feed container" ng-controller="videoCtrl">
+<body ng-controller="videoCtrl">
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-default navbar-fixed-top"
-      data-scroll-pos ng-class="{'not-top': scrollPosition > 50}">
-      <div class="container-fluid" >
+  <!-- Basic Filters for Search -->
+  <div class="container search-filters" ng-if="searchFilters.showFilters == true">
 
-        <!-- Page Title -->
-        <div class="navbar-header" id="page-title">
-          <a href="https://channel9.msdn.com/" target="_blank">
-            <h1>{{feed.title}}</h1>
-          </a>
-        </div>
-
-        <!-- Search -->
-        <ul class="nav navbar-nav navbar-right" id="search">
-          <li>
-            <button type="submit" class="btn btn-default" id="search_button"
-              ng-click="search_feed(search_val)">
-                <i class="glyphicon glyphicon-search"></i>
-            </button>
-            <input type="text" class="form-control" placeholder="Search"
-              ng-model="search_val" maxlength=30 id="search_bar"
-              ng-keyup="$event.keyCode == 13 && search_feed(search_val)"
-              title="Search by Tags, Title or Author">
-          </li>
-          <!-- <li>
-            <button type="submit" class="btn btn-primary"
-              ng-click="search_feed(search_val)">Search</button>
-          </li> -->
-        </ul>
-
+   <h1><small>Select Filters to narrow down your search.</small></h1>
+   <ul class="list-inline">
+     <li>
+       <div class="checkbox">
+        <h4><input type="checkbox" ng-model="searchFilters.title">Title</h4>
       </div>
-    </nav>
+     </li>
+     <li>
+       <div class="checkbox">
+        <h4><input type="checkbox" ng-model="searchFilters.author">Author</h4>
+      </div>
+     </li>
+     <li>
+       <div class="checkbox">
+        <h4><input type="checkbox" ng-model="searchFilters.tags">Tags</h4>
+      </div>
+     </li>
+   </ul>
+  </div>
 
-    <uib-accordion close-others="true">
-      <div uib-accordion-group class="panel-default" is-open="status.open"
-        ng-repeat="item in feed.items">
+  <div class="container">
+    <div class="feed">
 
-        <!-- Item Heading -->
-        <uib-accordion-heading class="item-heading">
-          <ul class="list-inline">
-            <!-- Thumbnail -->
-            <li class="pull-left">
-              <img id="thumbnail"
-              ng-src="{{item.thumbnail}}" alt="">
-            </li>
-            <!-- Title + Author + Date published -->
-            <li>
-              <div id="heading-info">
-                <h3 id="title">{{item.title}}</h3>
-                <h5>By {{item.author}}</h5>
-                <h6>{{item.date}}</h6>
-              </div>
-            </li>
-            <!-- Open/Close Arrow -->
-            <li class="pull-right">
-              <i class="glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-            </li>
-          </ul>
-        </uib-accordion-heading>
+      <!-- Navigation Bar -->
+      <nav class="navbar navbar-default navbar-fixed-top"
+        data-scroll-pos ng-class="{'not-top': scrollPosition > 50}">
+        <div class="container-fluid" >
 
-        <!-- Item Body (dropdown) -->
-        <div class="item-body" ng-if="status.open">
-          <!-- Video -->
-          <div id="item-video">
-            <video ng-src="{{item.video}}" controls>
-            </video>
+          <!-- Page Title -->
+          <div class="navbar-header" id="page-title">
+            <ul class="list-inline">
+              <a href="videoapp.html">
+                <h1>{{feed.title}} Feed</h1>
+              </a>
+            </ul>
           </div>
 
-          <!-- Description -->
-          <h4 class="page-header">Description</h4>
-          <p ng-bind-html="item.description"></p>
-
-          <!-- Categories/Tags -->
-          <ul class="list-inline">
-            <li><h4>Tags:</h4></li>
-            <li ng-repeat="tag in item.tags track by $index"><a href="">{{tag}}</a></li>
+          <!-- Search -->
+          <ul class="nav navbar-nav navbar-right" id="search">
+            <li>
+              <button type="submit" class="btn btn-default" id="toggle_filters"
+                ng-click="searchFilters.showFilters = !searchFilters.showFilters"
+                title="Toggle Search Filters">
+                  <i class="glyphicon glyphicon-search"></i>
+              </button>
+              <input type="text" class="form-control" placeholder="Search"
+                ng-model="search_val" maxlength=30 id="search_bar"
+                ng-keyup="$event.keyCode == 13 && search_feed(search_val)"
+                title="Press Enter to Search">
+            </li>
           </ul>
 
-        </div> <!-- item_body -->
-      </div> <!-- accordian-group -->
-    </uib-accordion>
+        </div>
+      </nav>
 
-  </div> <!-- feed container -->
+      <!-- Description + Link to original Feed -->
+      <div class="feed-description">
+        <a href="https://channel9.msdn.com/" target="_blank" title="Channel 9 Link">
+          <img ng-src="{{feed.icon}}">
+        </a>
+        <h2><small>{{feed.description}}</small></h2>
+      </div>
+
+      <!-- Feed Channel Items Starts here -->
+      <uib-accordion close-others="true">
+        <div uib-accordion-group class="panel panel-warning" is-open="status.open"
+          ng-repeat="item in feed.items">
+
+          <!-- Item Heading -->
+          <uib-accordion-heading class="item-heading">
+            <ul class="list-inline">
+              <!-- Thumbnail -->
+              <li class="pull-left" ng-if="!status.open">
+                <img id="thumbnail"
+                ng-src="{{item.thumbnail}}" alt="">
+              </li>
+              <!-- Title + Author + Date published -->
+              <li>
+                <div id="heading_info">
+                  <h3 id="title">{{item.title}}</h3>
+                  <h5>By {{item.author}}</h5>
+                  <h6>{{item.date}}</h6>
+                </div>
+              </li>
+              <!-- Open/Close Arrow -->
+              <li class="pull-right">
+                <i class="glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+              </li>
+            </ul>
+          </uib-accordion-heading>
+
+          <!-- Item Body (dropdown) -->
+          <div class="item-body" ng-if="status.open">
+            <!-- Video -->
+            <!-- Thumbnail of Video with Duration -->
+            <div id="video_thumbnail" ng-click="playVideo = true;" ng-show="!playVideo && item.video">
+              <img id="bg" ng-src="{{item.thumbnail}}">
+              <img id="play_icon" src="lib/images/playvid.png">
+              <h4 id="duration">{{item.duration}}</h4>
+            </div>
+            <!-- Vanilla Thumbnail if no video. -->
+            <div ng-show="!item.video">
+              <img id="bg" ng-src="{{item.thumbnail}}">
+              <h1><small>No Video Available.</small></h1>
+            </div>
+            <!-- The Actual Video -->
+            <div id="item_video" ng-if="item.video && playVideo">
+              <video controls>
+                 <source ng-src="{{item.video}}" type="video/mp4"/>
+              </video>
+            </div>
+
+            <!-- Description -->
+            <h4 class="page-header">Description</h4>
+            <p ng-bind-html="item.description"></p>
+
+            <!-- Original Link -->
+            <h3><small>Link to original
+              <a ng-href="{{item.link}}" target="_blank"> Here.</a>
+            </small></h3>
+
+            <!-- Categories/Tags -->
+            <ul class="list-inline">
+              <li><h4>Tags:</h4></li>
+              <li ng-repeat="tag in item.tags track by $index">
+                <a href="">{{tag}}</a>
+              </li>
+            </ul>
+
+          </div> <!-- item_body -->
+        </div> <!-- accordian-group (Item) -->
+      </uib-accordion>
+
+    </div> <!-- feed -->
+  </div> <!-- container -->
 
   <!-- JS Files -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>

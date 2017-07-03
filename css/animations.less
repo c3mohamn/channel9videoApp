@@ -1,88 +1,3 @@
-// Hide curly brackets for binded data
-[ng\:cloak], [ng-cloak], .ng-cloak {
-    display: none;
-}
-
-/* Fonts */
-@font-face {
-  font-family: "H-Font";
-  src: url("lib/fonts/BebasNeue.otf");
-}
-
-/* Globals */
-body {
-  background-image: url("lib/images/bg/vintage-leaves.png");
-
-  h1,h2,h3,h4,h5,h6 {
-    font-family: "H-Font";
-  }
-  a {
-    text-decoration: none;
-    transition: .2s;
-  }
-  a:hover {
-    text-decoration: none;
-    transition: .2s;
-  }
-}
-
-.feed {
-  padding: 100px;
-  margin-top: 50px;
-  // Navigation Bar CSS
-  nav {
-    #search {
-      padding: 5px;
-      margin-top: 15px;
-      #search_bar {
-        float: right;
-        width: 200px;
-      }
-      #search_button {
-        float: right;
-      }
-    }
-    #page-title {
-      a       {color: #01A9DB;}
-      a:hover {color: #0489B1;}
-    }
-  }
-
-  // Feed Items CSS
-  .panel-default {
-    background-color: rgba(0,0,0,.2);
-    min-width: 400px;
-    max-width: 800px;
-    box-shadow: -2px 2px 5px 2px rgba(0,0,0,.2);
-    transition: .5s;
-  }
-  .panel-default:hover {
-    background-color: rgba(0,0,0,.1);
-    border: solid 1px;
-    border-radius: 3px;
-    border-color: rgba(0,0,0,.5);
-    transition: .5s;
-  }
-
-  #thumbnail {
-    box-shadow: -1px 1px 2px 1px rgba(0,0,0,.5);
-    width: 125px;
-    margin-top: 8px;
-  }
-
-  #heading-info {
-    margin-top: -14px;
-    #title {color: #01A9DB;}
-  }
-
-  #item-video {
-    margin-top: 15px;
-    video {
-      width: 100%;
-    }
-  }
-}
-
 /* Animations */
 
 /* Navbar Animations */
@@ -98,6 +13,16 @@ nav.not-top {
 
 /* Selecting Videos */
 
+// Removing & Adding Thumbnail
+li.ng-leave {
+  animation: move_down 0.5s linear;
+  -webkit-animation: move_down 0.5s linear;
+}
+li.ng-enter {
+  animation: move_up 0.5s linear;
+  -webkit-animation: move_up 0.5s linear;
+}
+
 // Glyphicon Rotate
 .glyphicon.glyphicon-chevron-down-add {
   animation: glyphicon_rotateDown 0.1s linear;
@@ -108,7 +33,7 @@ nav.not-top {
   -webkit-animation: glyphicon_rotateRight 0.1s linear;
 }
 
-// Video Description + other details
+// Adding Video Description + other details
 .item-body.ng-enter {
   animation: fade_in .8s linear;
   -webkit-animation: fade_in .8s linear;
@@ -118,27 +43,36 @@ nav.not-top {
   -webkit-animation: fade_out .8s linear;
 }
 
-/* Item Filtering/Search */
+/* Item Filtering | Search */
 
 // Panel enter
-.panel-default.ng-enter {
+.panel.ng-enter {
   animation: panel_enter 0.5s linear;
   -webkit-animation: panel_enter 0.5s linear;
 }
-.panel-default.ng-enter-stagger {
+.panel.ng-enter-stagger {
   animation-delay: .1s;
   animation-duration: 0s;
 }
 
 // Panel Leave
-.panel-default.ng-leave {
+.panel.ng-leave {
   animation: panel_leave 0.5s linear;
   -webkit-animation: panel_leave 0.5s linear;
 }
-
-.panel-default.ng-leave-stagger {
+.panel.ng-leave-stagger {
   animation-delay: .1s;
   animation-duration: 0s;
+}
+
+//Advanced Search Filters
+.search-filters.ng-enter {
+  animation: slide_down 0.3s linear;
+  -webkit-animation: slide_down 0.3s linear;
+}
+.search-filters.ng-leave {
+  animation: slide_up 0.3s linear;
+  -webkit-animation: slide_up 0.3s linear;
 }
 
 /* Keyframe Animations */
@@ -159,6 +93,24 @@ nav.not-top {
 @-webkit-keyframes fade_out {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+
+// Basic Slide Up / Down
+@keyframes slide_down {
+  from { transform: translateY(-200%); opacity: 0;}
+  to { transform: translateY(0); opacity: 1}
+}
+@-webkit-keyframes slide_down {
+  from { transform: translateY(-200%); opacity: 0;}
+  to { transform: translateY(0); opacity: 1}
+}
+@keyframes slide_up {
+  from { transform: translateY(0); opacity: 1;}
+  to { transform: translateY(-200%); opacity: 0}
+}
+@-webkit-keyframes slide_up {
+  from { transform: translateY(0); opacity: 1;}
+  to { transform: translateY(-200%); opacity: 0}
 }
 
 // Panel Enter/Leave
@@ -195,4 +147,14 @@ nav.not-top {
 @-webkit-keyframes glyphicon_rotateRight {
   from { transform: rotateZ(90deg); }
   to { transform: rotateZ(0); }
+}
+
+// Thumbnail Animations
+@keyframes move_down {
+  from { opacity:1; transform: translateY(0) translateX(0) scale(1); }
+  to { opacity:0; transform: translateY(200%) translateX(50%) scale(1.5); }
+}
+@keyframes move_up {
+  from { opacity:.1; transform: translateY(200%) translateX(50%) scale(1.5); }
+  to { opacity:1; transform: translateY(0) translateX(0) scale(1); }
 }
