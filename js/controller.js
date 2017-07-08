@@ -22,6 +22,14 @@ videoApp.directive("scrollPos", function($window) {
   };
 });
 
+/* Filter what item to start from, used for pageination */
+videoApp.filter('startFrom', function() {
+  return function(input, start) {
+    start = +start; //parse to int
+    if (input) return input.slice(start);
+  }
+});
+
 videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
 
   $scope.feed = {}; // template feed
@@ -35,18 +43,27 @@ videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
     duration: false,
     date: false
   }
+  // Pageination Vars
+  $scope.curPage = 0;
+  $scope.pageSize = 10;
+  $scope.numPages = function() {
+    if ($scope.feed.items)
+      return Math.ceil($scope.feed.items.length / $scope.pageSize);
+  }
 
   // GET RSS feed form Channel9
   $http.get(jsonFeed).success(function (data) {
       var original_feed = data.query.results.rss;
       feed = new Feed(original_feed);
-      console.log(feed);
-
       $scope.feed = angular.copy(feed);
+      console.log(feed);
   });
 
   /* Search feed for feed item's that match search_val. */
   $scope.search_feed = function(search_val) {
+
+    // Reset Page back to start
+    $scope.curPage = 0;
 
     // If no search val, return to default
     if (!search_val) {

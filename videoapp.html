@@ -12,7 +12,9 @@
 </head>
 <body ng-controller="videoCtrl">
   <!-- TODO:
-  1. Sort By? 
+  1. Sort By?
+  2. Page Sizes Option in Filters
+  3. CHnage Filter in general
   -->
 
   <!-- Basic Filters for Search -->
@@ -89,7 +91,7 @@
       <!-- Feed Channel Items Starts here -->
       <uib-accordion close-others="true">
         <div uib-accordion-group class="panel panel-warning" is-open="status.open"
-          ng-repeat="item in feed.items">
+          ng-repeat="item in feed.items | startFrom:curPage*pageSize | limitTo:pageSize">
 
           <!-- Item Heading -->
           <uib-accordion-heading class="item-heading">
@@ -156,6 +158,28 @@
         </div> <!-- accordian-group (Item) -->
       </uib-accordion>
 
+      <!-- Pagination Buttons -->
+      <ul class="list-inline" style="text-align:center;">
+        <li>
+          <button type="submit" class="btn btn-default"
+            ng-click="curPage = curPage-1"
+            ng-disabled="curPage == 0"
+            title="Previous Page">
+              <i class="glyphicon glyphicon-chevron-left"></i>
+          </button>
+        </li>
+        <li>
+          <h3>{{curPage + 1}} / {{numPages()}}</h3>
+        </li>
+        <li>
+          <button type="submit" class="btn btn-default"
+            ng-click="curPage = curPage+1"
+            ng-disabled="curPage == numPages() - 1"
+            title="Next Page">
+              <i class="glyphicon glyphicon-chevron-right"></i>
+          </button>
+        </li>
+      </ul>
     </div> <!-- feed -->
   </div> <!-- container -->
 

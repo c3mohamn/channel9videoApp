@@ -17,3 +17,6 @@ http://www.rubencanton.com/blog/2014/07/adding-video-src-with-angular.html
 
 Scroll Position
 https://codepen.io/elmike/pen/sqDpi
+
+Pagination
+https://stackoverflow.com/questions/11581209/pagination-on-a-list-using-ng-repeat
