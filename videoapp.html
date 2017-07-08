@@ -11,11 +11,14 @@
   <link href="css/animations.css" rel="stylesheet" type="text/css"/>
 </head>
 <body ng-controller="videoCtrl">
+  <!-- TODO:
+  1. Sort By? 
+  -->
 
   <!-- Basic Filters for Search -->
   <div class="container search-filters" ng-if="searchFilters.showFilters == true">
 
-   <h1><small>Select Filters to narrow down your search.</small></h1>
+   <h1><small>Search By</small></h1>
    <ul class="list-inline">
      <li>
        <div class="checkbox">
@@ -53,19 +56,24 @@
           </div>
 
           <!-- Search -->
-          <ul class="nav navbar-nav navbar-right" id="search">
-            <li>
-              <button type="submit" class="btn btn-default" id="toggle_filters"
-                ng-click="searchFilters.showFilters = !searchFilters.showFilters"
-                title="Toggle Search Filters">
-                  <i class="glyphicon glyphicon-search"></i>
-              </button>
-              <input type="text" class="form-control" placeholder="Search"
+          <div id="search">
+            <!-- <li> -->
+              <input type="text" placeholder="Search"
+                ng-focus="searchBar.selected = true"
+                ng-blur="searchBar.selected = false"
+                ng-class="{'search_selected': searchBar.selected, 'search_unselected': !searchBar.selected}"
                 ng-model="search_val" maxlength=30 id="search_bar"
                 ng-keyup="$event.keyCode == 13 && search_feed(search_val)"
                 title="Press Enter to Search">
-            </li>
-          </ul>
+              <button type="submit" class="btn btn-default" id="toggle_filters"
+                ng-click="searchFilters.showFilters = !searchFilters.showFilters"
+                title="Toggle Search Filters">
+                  Filters
+                  <small><i class="glyphicon"
+                    ng-class="{'glyphicon-chevron-down': !searchFilters.showFilters, 'glyphicon-chevron-up': searchFilters.showFilters}"></i></small>
+              </button>
+            <!-- </li> -->
+          </div>
 
         </div>
       </nav>
@@ -75,7 +83,7 @@
         <a href="https://channel9.msdn.com/" target="_blank" title="Channel 9 Link">
           <img ng-src="{{feed.icon}}">
         </a>
-        <h2><small>{{feed.description}}</small></h2>
+        <h3><small>{{feed.description}}</small></h3>
       </div>
 
       <!-- Feed Channel Items Starts here -->
@@ -94,7 +102,7 @@
               <!-- Title + Author + Date published -->
               <li>
                 <div id="heading_info">
-                  <h3 id="title">{{item.title}}</h3>
+                  <div id="video_title">{{item.title}}</div>
                   <h5>By {{item.author}}</h5>
                   <h6>{{item.date}}</h6>
                 </div>
@@ -156,6 +164,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.js"></script>
   <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
-  <script src="controller.js"></script>
+  <script src="js/globals.js"></script>
+  <script src="js/controller.js"></script>
 </body>
 </html>

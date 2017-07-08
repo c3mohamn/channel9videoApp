@@ -1,14 +1,30 @@
 /* Animations */
 
 /* Navbar Animations */
-nav {
-  transition: 0.5s linear all;
-  background-color: white;
-
-}
-nav.not-top {
+.navbar.not-top {
   transition: 0.5s linear all;
   background-color: rgba(0,0,0,.3);
+  #page-title {
+    a { color: #FF8E00; }
+    a:hover { color: #DB7A00; }
+    transform:scale(.9);
+    transition: .5s;
+  }
+  #toggle_filters {
+    transform: translateY(-400%);
+    transition: .5s;
+  }
+}
+
+// Search Bar
+.search_selected {
+  width: 300px;
+  @media (max-width: 350px) {
+    width: 200px;
+  }
+}
+.search_unselected {
+  width: 150px;
 }
 
 /* Selecting Videos */
