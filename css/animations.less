@@ -1,3 +1,5 @@
+@import "style.less";
+
 /* Animations */
 
 /* Navbar Animations */
@@ -5,8 +7,8 @@
   transition: 0.5s linear all;
   background-color: rgba(0,0,0,.3);
   #page-title {
-    a { color: #FF8E00; }
-    a:hover { color: #DB7A00; }
+    a { color: @theme1; }
+    a:hover { color: @theme1-hov; }
     transform:scale(.9);
     transition: .5s;
   }
@@ -111,14 +113,16 @@ li.ng-enter {
   to { opacity: 0; }
 }
 
-// Basic Slide Up / Down
+// Basic Slide Up / Down (with bounce)
 @keyframes slide_down {
-  from { transform: translateY(-200%); opacity: 0;}
-  to { transform: translateY(0); opacity: 1}
+  0% { transform: translateY(-200%); opacity: 0; }
+  80% { transform: translateY(10%); opacity: .9; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 @-webkit-keyframes slide_down {
-  from { transform: translateY(-200%); opacity: 0;}
-  to { transform: translateY(0); opacity: 1}
+  0% { transform: translateY(-200%); opacity: 0; }
+  80% { transform: translateY(10%); opacity: .9; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 @keyframes slide_up {
   from { transform: translateY(0); opacity: 1;}

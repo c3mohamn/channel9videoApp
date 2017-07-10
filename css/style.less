@@ -3,6 +3,11 @@
     display: none;
 }
 
+@theme1: #FF8E00;
+@theme1-hov: #DB7A00;
+@theme2: #01A9DB;
+@theme2-hov: #0489B1;
+
 /* Fonts */
 @font-face {
   font-family: "H-Font";
@@ -34,21 +39,23 @@ body {
   min-width: 400px;
   max-width: 800px;
   margin-bottom: 100px;
-  background-color: rgba(0, 0, 0, .1);
   margin-top: 150px;
+  background-color: rgba(0, 0, 0, .1);
   padding:10px;
   border-radius: 2px;
 }
 
 // Advanced Search / Filters container
 .search-filters {
+  margin-top: 100px;
   margin-bottom: -100px;
   text-align: center;
-  li {
-    padding: 20px;
-  }
-  input {
-    cursor: pointer;
+  .filter-table {
+    margin: 0 auto;
+    td { width: 100px; }
+    tbody td { cursor: pointer; }
+    tbody td:hover {color: @theme1-hov; transition: .1s;}
+    .selected_filter { color: @theme1; }
   }
 }
 
@@ -79,9 +86,7 @@ body {
         box-shadow: 1px 1px 1px 1px rgba(0,0,0,.6);
         transition: .3s;
       }
-      #search_bar:focus {
-        outline: none;
-      }
+      #search_bar:focus { outline: none; }
       // Filter Button
       #toggle_filters {
         margin-right: 10px;
@@ -92,8 +97,8 @@ body {
       }
     }
     #page-title {
-      a       {color: #01A9DB;}
-      a:hover {color: #0489B1;}
+      a       {color: @theme2;}
+      a:hover {color: @theme2-hov;}
       transition: .1s;
     }
     // mobile view
@@ -138,7 +143,7 @@ body {
   // Item/Video Heading info
   #heading_info {
     #video_title {
-      color: #01A9DB;
+      color: @theme2;
       font-size: 20px;
       width: 400px;
       text-overflow: ellipsis;
@@ -151,9 +156,7 @@ body {
   #video_thumbnail {
     position: relative;
     display: inline-block;
-    img {
-      cursor: pointer;
-    }
+    img { cursor: pointer; }
     // putting play icon over thumbnail
     #play_icon {
       width: 30%;
@@ -162,6 +165,7 @@ body {
       display: block;
       margin: auto;
     }
+    // putting video duration over thumbnail
     #duration {
       position: absolute;
       margin-left: 10px;

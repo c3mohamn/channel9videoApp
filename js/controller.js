@@ -43,7 +43,7 @@ videoApp.controller('videoCtrl', ['$scope', '$http', function($scope, $http) {
     duration: false,
     date: false
   }
-  // Pageination Vars
+  // Pagination Vars
   $scope.curPage = 0;
   $scope.pageSize = 10;
   $scope.numPages = function() {

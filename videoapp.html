@@ -14,30 +14,44 @@
   <!-- TODO:
   1. Sort By?
   2. Page Sizes Option in Filters
-  3. CHnage Filter in general
+  3. Chnage Filter in general
   -->
 
   <!-- Basic Filters for Search -->
-  <div class="container search-filters" ng-if="searchFilters.showFilters == true">
+  <div class="search-filters" ng-if="searchFilters.showFilters == true">
 
-   <h1><small>Search By</small></h1>
-   <ul class="list-inline">
-     <li>
-       <div class="checkbox">
-        <h4><input type="checkbox" ng-model="searchFilters.title">Title</h4>
-      </div>
-     </li>
-     <li>
-       <div class="checkbox">
-        <h4><input type="checkbox" ng-model="searchFilters.author">Author</h4>
-      </div>
-     </li>
-     <li>
-       <div class="checkbox">
-        <h4><input type="checkbox" ng-model="searchFilters.tags">Tags</h4>
-      </div>
-     </li>
-   </ul>
+   <table class="filter-table">
+     <thead>
+       <tr>
+         <td><h4>Search By</h4></td>
+         <!-- <td><h4>Sort By</h4></td>
+         <td><h4>Page Size</h4></td> -->
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td ng-class="{'selected_filter': searchFilters.title}"
+             ng-click="searchFilters.title=!searchFilters.title"><h5>Title</h5></td>
+         <!-- <td><h5>Title</h5></td>
+         <td ng-class="{'selected_filter': pageSize==5}"
+             ng-click="pageSize=5"><h5>5</h5></td> -->
+       </tr>
+       <tr>
+         <td ng-class="{'selected_filter': searchFilters.author}"
+             ng-click="searchFilters.author=!searchFilters.author"><h5>Authors</h5></td>
+         <!-- <td><h5>Authors</h5></td>
+         <td ng-class="{'selected_filter': pageSize==10}"
+             ng-click="pageSize=10"><h5>10</h5></td> -->
+       </tr>
+       <tr>
+         <td ng-class="{'selected_filter': searchFilters.tags}"
+             ng-click="searchFilters.tags=!searchFilters.tags"><h5>Tags</h5></td>
+         <!-- <td><h5>Date</h5></td>
+         <td ng-class="{'selected_filter': pageSize==20}"
+             ng-click="pageSize=20"><h5>20</h5></td> -->
+       </tr>
+     </tbody>
+   </table>
   </div>
 
   <div class="container">
@@ -80,7 +94,7 @@
         </div>
       </nav>
 
-      <!-- Description + Link to original Feed -->
+      <!-- Page Description + Link to original Feed -->
       <div class="feed-description">
         <a href="https://channel9.msdn.com/" target="_blank" title="Channel 9 Link">
           <img ng-src="{{feed.icon}}">
@@ -95,7 +109,7 @@
 
           <!-- Item Heading -->
           <uib-accordion-heading class="item-heading">
-            <ul class="list-inline">
+            <ul class="list-inline" title="{{item.title}}">
               <!-- Thumbnail -->
               <li class="pull-left" ng-if="!status.open">
                 <img id="thumbnail"
